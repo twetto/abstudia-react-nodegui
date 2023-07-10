@@ -1,28 +1,47 @@
 import { Text, Window, hot, View, Button } from "@nodegui/react-nodegui";
-import { QPushButtonSignals } from '@nodegui/nodegui';
+//import { QPushButtonSignals } from '@nodegui/nodegui';
 import React, { useState, useEffect } from "react";
 import { QIcon } from "@nodegui/nodegui";
+//import { QMessageBox, ButtonRole, QPushButton } from "@nodegui/nodegui";
 import { StepOne } from "./components/stepone";
 import { StepTwo } from "./components/steptwo";
 import nodeguiIcon from "../assets/nodegui.jpg";
 import axios from 'axios';
+import AddTaskForm from './components/AddTaskForm';
 
 const minSize = { width: 500, height: 520 };
 const winIcon = new QIcon(nodeguiIcon);
 
-function App() {
-  const [tasks, setTasks] = useState([]);
+interface Task {
+  _id: string;
+  title: string;
+  completed: boolean;
+}
 
+
+const App = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
   useEffect(() => {
     fetchTasks();
   }, []);
-  
-  const fetchTasks = async () => {
+
+  async function fetchTasks() {
     try {
       const response = await axios.get('http://localhost:3000/tasks');
+      console.log("Response from server:", response.data);
       setTasks(response.data);
+      console.log('State after fetchTasks:', tasks);
     } catch (error) {
       console.error("Failed to fetch tasks", error);
+    }
+  }
+
+  async function deleteTask(taskId: string) {
+    try {
+      const response = await axios.delete(`http://localhost:3000/tasks/${taskId}`);
+      fetchTasks();   // refresh the tasks list
+    } catch (error) {
+      console.error("Failed to delete task", error);
     }
   }
 
@@ -36,8 +55,12 @@ function App() {
       <View style={containerStyle}>
         <Text id="welcome-text">Welcome to NodeGui 🐕</Text>
         {tasks.map(task => (
-          <Text key={task._id}>{task.title}</Text>
+          <View style="flex-direction: 'row'; align-items: 'center';" key={task._id}>
+            <Button style="margin-left: 5px; margin-right: 5px;" text="❎" on={{clicked: () => deleteTask(task._id)}} />
+            <Text>{task.title}</Text>
+          </View>
         ))}
+        <AddTaskForm onTaskAdded={() => fetchTasks()} />
         <Button text="Refresh" on={{clicked: () => fetchTasks()}} />
         <Text id="step-1">1. Play around</Text>
         <StepOne />
@@ -46,7 +69,7 @@ function App() {
       </View>
     </Window>
   );
-}
+};
 
 const containerStyle = `
   flex: 1; 
@@ -68,3 +91,4 @@ const styleSheet = `
 `;
 
 export default hot(App);
+
