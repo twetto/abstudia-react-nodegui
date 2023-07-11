@@ -51,8 +51,8 @@ class AddTaskForm extends React.Component<AddTaskFormProps, AddTaskFormState> {
   render() {
     return (
       <View style="flex-direction: 'row'; align-items: 'center';">
-        <Button style="margin-left: 5px; margin-right: 5px;" text="➕" on={{ clicked: this.handleSubmit }} />
-        <LineEdit text={this.state.newTaskTitle} on={{ textChanged: this.handleInputChange }}/>
+        <Button id="iconButton" text="➕" on={{ clicked: this.handleSubmit }} />
+        <LineEdit id="lineEdit" text={this.state.newTaskTitle} on={{ textChanged: this.handleInputChange }}/>
       </View>
     );
   }

@@ -47,6 +47,7 @@ const App = () => {
 
   return (
     <Window
+      id="mainWindow"
       windowIcon={winIcon}
       windowTitle="Hello 👋🏽"
       minSize={minSize}
@@ -55,13 +56,13 @@ const App = () => {
       <View style={containerStyle}>
         <Text id="welcome-text">Welcome to NodeGui 🐕</Text>
         {tasks.map(task => (
-          <View style="flex-direction: 'row'; align-items: 'center';" key={task._id}>
-            <Button style="margin-left: 5px; margin-right: 5px;" text="❎" on={{clicked: () => deleteTask(task._id)}} />
+          <View id="taskList" key={task._id}>
+            <Button id="iconButton" text="❎" on={{clicked: () => deleteTask(task._id)}} />
             <Text>{task.title}</Text>
           </View>
         ))}
         <AddTaskForm onTaskAdded={() => fetchTasks()} />
-        <Button text="Refresh" on={{clicked: () => fetchTasks()}} />
+        <Button id="textButton" text="Refresh" on={{clicked: () => fetchTasks()}} />
         <Text id="step-1">1. Play around</Text>
         <StepOne />
         <Text id="step-2">2. Debug</Text>
@@ -76,6 +77,10 @@ const containerStyle = `
 `;
 
 const styleSheet = `
+  #mainWindow {
+  background-color: #edece8;
+  }
+
   #welcome-text {
     font-size: 24px;
     padding-top: 20px;
@@ -88,6 +93,53 @@ const styleSheet = `
     padding-top: 10px;
     padding-horizontal: 20px;
   }
+  
+  #taskList {
+    flex-direction: 'row';
+    align-items: 'center';
+  }
+
+  #iconButton {
+    background-color: #e6e5df;
+    border: 0px;
+    padding: 2px;
+    margin: 0px;
+    margin-left: 5px;
+    margin-right: 2px;
+  }
+  
+  #iconButton:hover {
+    background-color: #f8f8f6;
+  }
+
+  #iconButton:hover:pressed {
+    background-color: #5b8089;
+  }
+
+  #textButton {
+    background-color: #e6e5df;
+    border: 0px;
+    padding: 5px;
+    margin: 5px;
+  }
+  
+  #textButton:hover {
+    background-color: #f8f8f6;
+  }
+
+  #textButton:hover:pressed {
+    color: white;
+    background-color: #5b8089;
+  }
+
+  #lineEdit {
+    background-color: #f8f8f6;
+    selection-background-color: #5b8089;
+    border: 0px;
+    padding: 1px;
+    margin: 0px;
+  }
+
 `;
 
 export default hot(App);
