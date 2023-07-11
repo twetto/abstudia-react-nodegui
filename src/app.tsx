@@ -106,6 +106,7 @@ const styleSheet = `
     margin: 0px;
     margin-left: 5px;
     margin-right: 2px;
+    border-radius: 3px;
   }
   
   #iconButton:hover {
@@ -121,6 +122,7 @@ const styleSheet = `
     border: 0px;
     padding: 5px;
     margin: 5px;
+    border-radius: 3px;
   }
   
   #textButton:hover {
@@ -138,6 +140,7 @@ const styleSheet = `
     border: 0px;
     padding: 1px;
     margin: 0px;
+    border-radius: 3px;
   }
 
 `;
