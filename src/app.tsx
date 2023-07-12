@@ -78,7 +78,7 @@ const containerStyle = `
 
 const styleSheet = `
   #mainWindow {
-  background-color: #edece8;
+  background-color: #e2e0db;
   }
 
   #welcome-text {
@@ -100,7 +100,7 @@ const styleSheet = `
   }
 
   #iconButton {
-    background-color: #e6e5df;
+    background-color: #d9d6d0;
     border: 0px;
     padding: 2px;
     margin: 0px;
@@ -118,7 +118,7 @@ const styleSheet = `
   }
 
   #textButton {
-    background-color: #e6e5df;
+    background-color: #d9d6d0;
     border: 0px;
     padding: 5px;
     margin: 5px;
