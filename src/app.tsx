@@ -1,4 +1,4 @@
-import { Text, Window, hot, View, Button } from "@nodegui/react-nodegui";
+import { Text, Window, hot, View, Button, Tabs, TabItem } from "@nodegui/react-nodegui";
 //import { QPushButtonSignals } from '@nodegui/nodegui';
 import React, { useState, useEffect } from "react";
 import { QIcon } from "@nodegui/nodegui";
@@ -53,21 +53,31 @@ const App = () => {
       minSize={minSize}
       styleSheet={styleSheet}
     >
-      <View style={containerStyle}>
-        <Text id="welcome-text">Welcome to NodeGui 🐕</Text>
-        {tasks.map(task => (
-          <View id="taskList" key={task._id}>
-            <Button id="iconButton" text="❎" on={{clicked: () => deleteTask(task._id)}} />
-            <Text>{task.title}</Text>
+      <Tabs id="tabs">
+        <TabItem title="Settings">
+          <View>
+            <Text>hello</Text>
           </View>
-        ))}
-        <AddTaskForm onTaskAdded={() => fetchTasks()} />
-        <Button id="textButton" text="Refresh" on={{clicked: () => fetchTasks()}} />
-        <Text id="step-1">1. Play around</Text>
-        <StepOne />
-        <Text id="step-2">2. Debug</Text>
-        <StepTwo />
-      </View>
+        </TabItem>
+        <TabItem title="Task List">
+          <View style={containerStyle}>
+            {tasks.map(task => (
+              <View id="taskList" key={task._id}>
+                <Button id="iconButton" text="❎" on={{clicked: () => deleteTask(task._id)}} />
+                <Text>{task.title}</Text>
+              </View>
+            ))}
+            <AddTaskForm onTaskAdded={() => fetchTasks()} />
+            <Button id="textButton" text="Refresh" on={{clicked: () => fetchTasks()}} />
+            {/*
+            <Text id="step-1">1. Play around</Text>
+            <StepOne />
+            <Text id="step-2">2. Debug</Text>
+            <StepTwo />
+            */}
+          </View>
+        </TabItem>
+      </Tabs>
     </Window>
   );
 };
@@ -78,7 +88,19 @@ const containerStyle = `
 
 const styleSheet = `
   #mainWindow {
-  background-color: #e2e0db;
+    background-color: #cfc7be;
+  }
+  
+  #tabs {
+    background-color: #dad6cd;
+  }
+
+  #tabs QTabBar::tab {
+    background-color: #cfc7be;
+  }
+
+  #tabs QTabBar::tab:selected {
+    background-color: #e6e3dc;
   }
 
   #welcome-text {
@@ -100,7 +122,8 @@ const styleSheet = `
   }
 
   #iconButton {
-    background-color: #d9d6d0;
+    background-color: #d4d1c8;
+;
     border: 0px;
     padding: 2px;
     margin: 0px;
@@ -118,7 +141,7 @@ const styleSheet = `
   }
 
   #textButton {
-    background-color: #d9d6d0;
+    background-color: #d4d1c8;
     border: 0px;
     padding: 5px;
     margin: 5px;
