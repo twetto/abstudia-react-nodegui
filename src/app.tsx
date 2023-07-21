@@ -8,6 +8,7 @@ import { StepTwo } from "./components/steptwo";
 import nodeguiIcon from "../assets/nodegui.jpg";
 import axios from 'axios';
 import AddTaskForm from './components/AddTaskForm';
+import Settings from './components/Settings';
 
 const minSize = { width: 500, height: 520 };
 const winIcon = new QIcon(nodeguiIcon);
@@ -55,9 +56,7 @@ const App = () => {
     >
       <Tabs id="tabs">
         <TabItem title="Settings">
-          <View>
-            <Text>hello</Text>
-          </View>
+          <Settings />
         </TabItem>
         <TabItem title="Task List">
           <View style={containerStyle}>
