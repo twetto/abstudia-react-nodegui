@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, LineEdit, View, Text } from '@nodegui/react-nodegui';
 import axios from 'axios';
+import SessionContext from '../SessionContext';
 
 interface AddTaskFormState {
   newTaskTitle: string;
@@ -11,6 +12,9 @@ interface AddTaskFormProps {
 }
 
 class AddTaskForm extends React.Component<AddTaskFormProps, AddTaskFormState> {
+  
+  static contextType = SessionContext;
+
   constructor(props: AddTaskFormProps) {
     super(props);
     this.state = { newTaskTitle: '' };
@@ -25,7 +29,13 @@ class AddTaskForm extends React.Component<AddTaskFormProps, AddTaskFormState> {
 
   async sendAddTaskRequest(newTaskTitle: string) {
     try {
-      const response = await axios.post('http://localhost:3000/tasks', { title: newTaskTitle });
+      const { website, cookies } = this.context;
+      const cookiesString = Object.entries(cookies).map(([k, v]) => `${k}=${v}`).join('; ');
+      const axiosInstance = axios.create({
+        baseURL: `${website}`,
+        headers: { 'cookie': cookiesString }
+      });
+      const response = await axiosInstance.post('/tasks', { title: newTaskTitle });
       console.log(response.data);
     } catch (error) {
       console.error("Failed to add task", error);
@@ -43,7 +53,6 @@ class AddTaskForm extends React.Component<AddTaskFormProps, AddTaskFormState> {
         await this.props.onTaskAdded();
       }
     } catch(error) {
-      // Handle any errors from the request here
       console.error("Failed to add task", error);
     }
   }

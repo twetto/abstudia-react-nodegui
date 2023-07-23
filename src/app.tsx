@@ -1,89 +1,55 @@
 import { Text, Window, hot, View, Button, Tabs, TabItem } from "@nodegui/react-nodegui";
-//import { QPushButtonSignals } from '@nodegui/nodegui';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { QIcon } from "@nodegui/nodegui";
-//import { QMessageBox, ButtonRole, QPushButton } from "@nodegui/nodegui";
-import { StepOne } from "./components/stepone";
-import { StepTwo } from "./components/steptwo";
 import nodeguiIcon from "../assets/nodegui.jpg";
 import axios from 'axios';
-import AddTaskForm from './components/AddTaskForm';
+import SessionContext from './SessionContext';
 import Settings from './components/Settings';
+import TaskList from './components/TaskList';
 
 const minSize = { width: 500, height: 520 };
 const winIcon = new QIcon(nodeguiIcon);
 
-interface Task {
-  _id: string;
-  title: string;
-  completed: boolean;
-}
-
-
 const App = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+
+  // states
+  const [session, setSession] = useState({ website: '', cookies: {} });
+  const sessionContext = useContext(SessionContext);
+
+  const updateSession = (website: string, cookies: any) => {
+    setSession({ website, cookies });
+  }
+
   useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  async function fetchTasks() {
-    try {
-      const response = await axios.get('http://localhost:3000/tasks');
-      console.log("Response from server:", response.data);
-      setTasks(response.data);
-      console.log('State after fetchTasks:', tasks);
-    } catch (error) {
-      console.error("Failed to fetch tasks", error);
-    }
-  }
-
-  async function deleteTask(taskId: string) {
-    try {
-      const response = await axios.delete(`http://localhost:3000/tasks/${taskId}`);
-      fetchTasks();   // refresh the tasks list
-    } catch (error) {
-      console.error("Failed to delete task", error);
-    }
-  }
+  });
 
   return (
-    <Window
-      id="mainWindow"
-      windowIcon={winIcon}
-      windowTitle="Hello 👋🏽"
-      minSize={minSize}
-      styleSheet={styleSheet}
-    >
-      <Tabs id="tabs">
-        <TabItem title="Settings">
-          <Settings />
-        </TabItem>
-        <TabItem title="Task List">
-          <View style={containerStyle}>
-            {tasks.map(task => (
-              <View id="taskList" key={task._id}>
-                <Button id="iconButton" text="❎" on={{clicked: () => deleteTask(task._id)}} />
-                <Text>{task.title}</Text>
-              </View>
-            ))}
-            <AddTaskForm onTaskAdded={() => fetchTasks()} />
-            <Button id="textButton" text="Refresh" on={{clicked: () => fetchTasks()}} />
-            {/*
-            <Text id="step-1">1. Play around</Text>
-            <StepOne />
-            <Text id="step-2">2. Debug</Text>
-            <StepTwo />
-            */}
-          </View>
-        </TabItem>
-      </Tabs>
-    </Window>
+    <SessionContext.Provider value={{ ...session, setSession: updateSession }}>
+      <Window
+        id="mainWindow"
+        windowIcon={winIcon}
+        windowTitle="Hello 👋🏽"
+        minSize={minSize}
+        styleSheet={styleSheet}
+      >
+        <Tabs id="tabs">
+          <TabItem title="Settings">
+            <Settings />
+          </TabItem>
+          <TabItem title="Task List">
+            {/*<View style={containerStyle}>*/}
+            <TaskList />
+            {/*</View>*/}
+          </TabItem>
+        </Tabs>
+      </Window>
+    </SessionContext.Provider>
   );
 };
 
-const containerStyle = `
-  flex: 1; 
-`;
+//const containerStyle = `
+//  flex: 1; 
+//`;
 
 const styleSheet = `
   #mainWindow {
@@ -96,6 +62,11 @@ const styleSheet = `
 
   #tabs QTabBar::tab {
     background-color: #cfc7be;
+    border: 5px;
+    padding: 5px;
+    margin: 5px;
+    margin-top: 3px;
+    border-radius: 3px;
   }
 
   #tabs QTabBar::tab:selected {
@@ -115,11 +86,6 @@ const styleSheet = `
     padding-horizontal: 20px;
   }
   
-  #taskList {
-    flex-direction: 'row';
-    align-items: 'center';
-  }
-
   #iconButton {
     background-color: #d4d1c8;
 ;

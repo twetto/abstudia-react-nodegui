@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, LineEdit, Text, View } from '@nodegui/react-nodegui';
 import { EchoMode } from "@nodegui/nodegui";
 import axios from 'axios';
+import SessionContext from '../SessionContext';
 
 interface SettingsState {
   userId: string;
@@ -13,6 +14,9 @@ interface SettingsProps {
 }
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
+
+  static contextType = SessionContext;
+
   axiosInstance = axios.create({
     baseURL: 'https://myapp.my.domain',
     withCredentials: true,
@@ -36,12 +40,21 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
   async handleLogin() {
     try {
-      this.axiosInstance.defaults.baseURL = this.state.website;
+      this.axiosInstance.defaults.baseURL = `https://${this.state.website}`;
       const response = await this.axiosInstance.post('/auth/login', {
         username: this.state.userId,
         password: this.state.password,
       });
-      console.log(response.data);
+      const rawCookies = response.headers['set-cookie'];
+      const cookies: { [key: string]: string } = {};
+      if (rawCookies) {
+        rawCookies.forEach((cookie: string) => {
+          const [name, ...rest] = cookie.split(';');
+          const [key, value] = name.split('=');
+          cookies[key] = value;
+        });
+      }
+      this.context.setSession(`https://${this.state.website}`, cookies);
     } catch (error) {
       console.error(error);
     }
