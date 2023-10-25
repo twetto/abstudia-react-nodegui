@@ -64,6 +64,8 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
           <View id="singleTask" key={task._id}>
             <Button id="iconButton" text="❎" on={{clicked: () => this.deleteTask(task._id)}} />
             <Text>{task.title}</Text>
+            <Text>{task.isUrgent ? "🚨" : ""}</Text>
+            <Text>{task.isImportant ? "⭐" : ""}</Text>
           </View>
         ))}
         <AddTaskForm onTaskAdded={() => this.fetchTasks()} />
