@@ -88,8 +88,13 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
           <View id="singleTask" key={task._id}>
             <Button id="iconButton" text="❎" on={{clicked: () => this.deleteTask(task._id)}} />
             <Text>{task.title}</Text>
-            <Text>{task.isUrgent ? "🚨" : ""}</Text>
-            <Text>{task.isImportant ? "⭐" : ""}</Text>
+            <View style={` flex-grow: 1; `}></View>
+            <View id="taskProperty">
+              <Text>{task.isUrgent ? "🚨" : ""}</Text>
+            </View>
+            <View id="taskProperty">
+              <Text>{task.isImportant ? "⭐" : ""}</Text>
+            </View>
           </View>
         ))}
         <View id="pageSetting">
@@ -114,6 +119,11 @@ const styleSheet = `
   #singleTask {
     flex-direction: 'row';
     align-items: 'center';
+  }
+
+  #taskProperty {
+    width: 40;
+    text-align: 'center';
   }
 
   #pageSetting {
