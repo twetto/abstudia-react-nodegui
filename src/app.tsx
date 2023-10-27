@@ -6,6 +6,7 @@ import axios from 'axios';
 import SessionContext from './SessionContext';
 import Settings from './components/Settings';
 import TaskList from './components/TaskList';
+import EisenhowerMatrix from './components/EisenhowerMatrix';
 
 const minSize = { width: 500, height: 520 };
 const winIcon = new QIcon(nodeguiIcon);
@@ -40,6 +41,9 @@ const App = () => {
             {/*<View style={containerStyle}>*/}
             <TaskList />
             {/*</View>*/}
+          </TabItem>
+          <TabItem title="E-Matrix">
+            <EisenhowerMatrix />
           </TabItem>
         </Tabs>
       </Window>
