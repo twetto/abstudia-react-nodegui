@@ -53,14 +53,14 @@ class EisenhowerMatrix extends React.Component<TaskListProps, TaskListState> {
     return (
       <View id="eColumn" styleSheet={styleSheet}>
         <View id="eRow">
-          <View id="taskGroup">
+          <View id="taskGroup" style={`background-color: #ff5e4b; margin-top: 0px; margin-right: 2px; margin-bottom: 3px;`}>
             {urgentImportant.map(task => (
               <View id="singleTask" key={task._id}>
                 <Text>{task.title}</Text>
               </View>
             ))}
           </View>
-          <View id="taskGroup">
+          <View id="taskGroup" style={`background-color: #83a598; margin-top: 0px; margin-left: 2px; margin-bottom: 3px;`}>
             {notUrgentImportant.map(task => (
               <View id="singleTask" key={task._id}>
                 <Text>{task.title}</Text>
@@ -69,14 +69,14 @@ class EisenhowerMatrix extends React.Component<TaskListProps, TaskListState> {
           </View>
         </View>
         <View id="eRow">
-          <View id="taskGroup">
+          <View id="taskGroup" style={`background-color: #ff9034; margin-top: 3px; margin-right: 2px; margin-bottom: 2px;`}>
             {urgentNotImportant.map(task => (
               <View id="singleTask" key={task._id}>
                 <Text>{task.title}</Text>
               </View>
             ))}
           </View>
-          <View id="taskGroup">
+          <View id="taskGroup" style={`background-color: #a89984; margin-top: 3px; margin-left: 2px; margin-bottom: 2px;`}>
             {neither.map(task => (
               <View id="singleTask" key={task._id}>
                 <Text>{task.title}</Text>
@@ -84,7 +84,7 @@ class EisenhowerMatrix extends React.Component<TaskListProps, TaskListState> {
             ))}
           </View>
         </View>
-        <Button id="textButton" text="Refresh" on={{clicked: () => this.fetchTasks()}} />
+        <Button id="textButton" style={`margin-top: 2px;`} text="Refresh" on={{clicked: () => this.fetchTasks()}} />
       </View>
     );
   }
@@ -93,7 +93,7 @@ class EisenhowerMatrix extends React.Component<TaskListProps, TaskListState> {
 const styleSheet = `
 
   #eColumn {
-    padding-top: 10px;
+    padding-top: 7px;
     flex-direction: 'column';
   }
 
@@ -101,14 +101,18 @@ const styleSheet = `
     flex-direction: 'row';
     flex: 1;
     justify-content: 'space-between';
-    align-items: 'center';
   }
 
   #taskGroup {
     flex-direction: 'column';
     flex: 1;
+    height: '100%';
+    border: 4px;
+    padding: 4px;
+    margin: 4px;
+    border-radius: 3px;
   }
-  
+
   #singleTask {
     flex-direction: 'row';
     align-items: 'center';

@@ -112,8 +112,8 @@ const styleSheet = `
   #textButton {
     background-color: #d4d1c8;
     border: 0px;
-    padding: 5px;
-    margin: 5px;
+    padding: 4px;
+    margin: 4px;
     border-radius: 3px;
   }
   
