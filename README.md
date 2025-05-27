@@ -5,3 +5,9 @@ Desktop frontend for Abstudia.
 
 * Node.js >=12 and <=18
 
+## Run
+
+```bash
+npm run dev
+npm start
+```
